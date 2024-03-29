@@ -24,15 +24,34 @@ function wordOccurrenceCount() {
     const result = words.reduce((count, word) => (word.toLowerCase() === inputWord.toLowerCase() ? count + 1 : count), 0);
     displayResult(`Word "${inputWord}" occurs ${result} times`);
 }
-
 function wordDensityCalculate() {
     const inputSentence = document.getElementById('str').value;
-    const words = inputSentence.split(/\s+/).filter(word => word.trim() !== '');
-    const totalWords = words.length;
-    const uniqueWords = new Set(words).size;
-    const density = (uniqueWords / totalWords * 100).toFixed(2);
+    
+    // Split the input sentence into an array of words
+    const words = inputSentence.trim().split(/\s+/);
+    
+    // Remove empty strings from the array
+    const filteredWords = words.filter(word => word !== '');
+
+    // Total number of words
+    const totalWords = filteredWords.length;
+    
+    // Calculate the frequency of each word
+    const wordFrequency = {};
+    filteredWords.forEach(word => {
+        wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+    });
+
+    // Total number of unique words
+    const uniqueWords = Object.keys(wordFrequency).length;
+    
+    // Calculate word density
+    const density = ((uniqueWords / totalWords) * 100).toFixed(2);
+
+    // Display the result
     displayResult(`Word Density: ${density}%`);
 }
+
 
 function fileExtraction() {
     const inputFileName = document.getElementById('myfile').value;
